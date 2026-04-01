@@ -11,4 +11,4 @@ As opções inicias são 1º abrir no explorar, 2ª abrir com a IDE (sendo esse 
 
 ---
 Obs: Está em inglês pelo padrão que eu utilizo no código. 
-Need to learn english somehow an so be it with coding :P
+Need to learn english somehow and so be it with coding :P
