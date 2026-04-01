@@ -13,6 +13,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 today = datetime.date.today()
 
 
+# Cria o diretório se não existir
 def create_dir(path):
     if not os.path.exists(path):
         for _ in track(
@@ -28,7 +29,9 @@ def create_dir(path):
         return False
 
 
-def _cursor_launch_argv(folder: str) -> list[str] | None:
+
+## O primeiro elemento da lista é o caminho da IDE e o segundo é o caminho do projeto (obrigatoriamente retornar lista)
+def cursor_launch_argv(folder: str) -> list[str] | None:
     """Resolve how to open a folder in Cursor (PATH or default Windows install)."""
     if sys.platform == "win32":
         exe = os.path.join(
@@ -45,12 +48,12 @@ def _cursor_launch_argv(folder: str) -> list[str] | None:
     return None
 
 
+# Mostra as opções de abertura do diretório
 def show_options_menu(target_dir: str) -> None:
     console = Console()
-    console.print()
-    console.print("[bold bright_cyan]1[/bold bright_cyan] - Open folder in File Explorer")
-    console.print("[bold bright_magenta]2[/bold bright_magenta] - Open folder in Cursor")
-    console.print("[bold bright_yellow]3[/bold bright_yellow] - Exit")
+    console.print("[bold bright_cyan]1 - Open folder in File Explorer")
+    console.print("[bold bright_magenta]2 - Open folder in Cursor")
+    console.print("[bold bright_yellow]3 - Exit")
     choice = Prompt.ask(
         "[bold white]Choose[/bold white]",
         choices=["1", "2", "3"],
@@ -64,7 +67,7 @@ def show_options_menu(target_dir: str) -> None:
         else:
             subprocess.run(["xdg-open", target_dir], check=False)
     elif choice == "2":
-        argv = _cursor_launch_argv(target_dir)
+        argv = cursor_launch_argv(target_dir)
         if argv is None:
             console.print(
                 "[red]Cursor not found. Install it or add the 'cursor' command to PATH.[/red]"
@@ -77,6 +80,7 @@ def show_options_menu(target_dir: str) -> None:
                 )
 
 
+# Função principal, onde a mágia começa!
 if __name__ == "__main__":
     path = os.path.join(BASE_DIR, today.strftime("%Y-%m-%d"))
     create_dir(path)
